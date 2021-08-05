@@ -13,10 +13,11 @@ public class Enemy : MonoBehaviour
     Vector3 dir;
 
     //모양들...
-    public GameObject model1;
-    public GameObject model2;
-    public GameObject model3;
-    public GameObject model4;
+    // public GameObject model1;
+    // public GameObject model2;
+    // public GameObject model3;
+    // public GameObject model4;
+    public GameObject[] models = new GameObject[4];
 
     //폭발공장
     public GameObject exploFactory;
@@ -25,25 +26,26 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         //0, 1, 2, 3 이 나오는 랜덤값을 뽑자
-        modelIdx = Random.Range(0, 4);
-        //만약에 0이 나오면 model1 활성화
-        if(modelIdx == 0)
-        {
-            model1.SetActive(true);
-        }
-        //그렇지 않고 1이 나오면 model2 활성화
-        else if(modelIdx == 1)
-        {
-            model2.SetActive(true);
-        }
-        else if (modelIdx == 2)
-        {
-            model3.SetActive(true);
-        }
-        else if (modelIdx == 3)
-        {
-            model4.SetActive(true);
-        }
+        modelIdx = Random.Range(0, models.Length);
+        // //만약에 0이 나오면 model1 활성화
+        // if(modelIdx == 0)
+        // {
+        //     model1.SetActive(true);
+        // }
+        // //그렇지 않고 1이 나오면 model2 활성화
+        // else if(modelIdx == 1)
+        // {
+        //     model2.SetActive(true);
+        // }
+        // else if (modelIdx == 2)
+        // {
+        //     model3.SetActive(true);
+        // }
+        // else if (modelIdx == 3)
+        // {
+        //     model4.SetActive(true);
+        // }
+        models[modelIdx].SetActive(true);
 
         //0 ~ 9
         int rand = Random.Range(0, 10);

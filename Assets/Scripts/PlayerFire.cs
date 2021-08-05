@@ -16,18 +16,49 @@ public class PlayerFire : MonoBehaviour
     //발사시간
     public float fireTime = 1;
 
+    public int[] numbers = new int[10];
+
+
     void Start()
     {
+        for (int i = 0; i < numbers.Length; i++)
+            numbers[i] = (i + 1) * 10;
 
+    }
+
+    void Shuffle()
+    {
+            for (int i = 0; i < 100; i++)
+            {
+                int a = Random.Range(0, numbers.Length);
+                int b = Random.Range(0, numbers.Length);
+                while (a == b)
+                    b = Random.Range(0, numbers.Length);
+
+                swapNumbers(a, b);
+            }
+    }
+
+    void swapNumbers(int idx1, int idx2)
+    {
+        int temp = numbers[idx1];
+        numbers[idx1] = numbers[idx2];
+        numbers[idx2] = temp;
     }
 
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Shuffle();
+        }
+
         if (GameManager.instance.state != (int)GameManager.GAMESTATE.PLAYING)
             return;
 
         currTime += Time.deltaTime;
-        
+
         //1. 만약에 사용자가 마우스왼쪽(왼쪽 Ctrl)버튼을 누르면
         if (Input.GetButton("Fire1"))
         {

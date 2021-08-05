@@ -114,10 +114,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  model1: {fileID: 2613085981069758622}
-  model2: {fileID: 6486714715498403856}
-  model3: {fileID: 5596174889518219202}
-  model4: {fileID: 8593300464284634940}
+  models:
+  - {fileID: 2613085981069758622}
+  - {fileID: 6486714715498403856}
+  - {fileID: 5596174889518219202}
+  - {fileID: 8593300464284634940}
   exploFactory: {fileID: 100006, guid: 8a4aceaf2957c044480166b429f4c7d0, type: 3}
 --- !u!54 &3090583999668546776
 Rigidbody:
