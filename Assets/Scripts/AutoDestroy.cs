@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AutoDestroy : MonoBehaviour
 {
-    //ÇöÀç½Ã°£
+    //í˜„ì¬ì‹œê°„
     float currTime;
-    //ÆÄ±«½Ã°£
+    //íŒŒê´´ì‹œê°„
     public float destroyTime = 3;
     void Start()
     {
@@ -15,12 +15,12 @@ public class AutoDestroy : MonoBehaviour
 
     void Update()
     {
-        //ÇöÀç½Ã°£À» Èå¸£°Ô
+        //í˜„ì¬ì‹œê°„ì„ íë¥´ê²Œ
         currTime += Time.deltaTime;
-        //ÇöÀçÈå¸£´Â½Ã°£ÀÌ ÆÄ±«½Ã°£º¸´Ù Ä¿Áö¸é
+        //í˜„ì¬ íë¥´ëŠ” ì‹œê°„ì´ íŒŒê´´ì‹œê°„ë³´ë‹¤ ì»¤ì§€ë©´
         if(currTime > destroyTime)
         {
-            //³ª¸¦ ÆÄ±«ÇØ¶ó
+            //ë‚˜ë¥¼ íŒŒê´´í•´ë¼
             Destroy(gameObject);
         }
     }

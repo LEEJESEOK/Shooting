@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    //�ӵ�
+    //속도
     public float speed = 20;
 
-    //�����緯
+    //프로펠러
     public GameObject propeller;
 
     void Start()
@@ -17,14 +17,15 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        //���࿡ GameManager�� ���°��� 2(�÷���) ���
-        if (GameManager.instance.state != 2) return;
+        //GameManager의 상태가 플레이 상태라면..
+        if (GameManager.instance.state != (int)GameManager.GAMESTATE.PLAYING)
+            return;
 
-        //1. ������� �Է��� �޾Ƽ�
-        float h = Input.GetAxis("Horizontal"); // A :-1, D : 1, ������ ������ 0
-        float v = Input.GetAxis("Vertical");   // S :-1, W : 1, ������ ������ 0      
+        //1. 사용자의 입력을 받아서
+        float h = Input.GetAxis("Horizontal"); // A :-1, D : 1, 누르지 않으면 0
+        float v = Input.GetAxis("Vertical");   // S :-1, W : 1, 누르지 않으면 0      
 
-        //2. ������ ���ϰ�
+        //2. 방향을 정하고
         Vector3 dirH = transform.right * h;
         //Vector3.right * h = (1, 0, 0) * h = (h, 0, 0)
         Vector3 dirV = transform.up * v;
@@ -33,7 +34,7 @@ public class PlayerMove : MonoBehaviour
         //dir�� ũ�⸦ 1�� �Ѵ�.
         dir.Normalize();
 
-        //3. �� �������� �����̰� �ʹ�.
+        //3. 그 방향으로 움직이고 싶다.
         //P = P0 + vt
         transform.position += dir * speed * Time.deltaTime;
 
@@ -44,7 +45,7 @@ public class PlayerMove : MonoBehaviour
 
     void RotatePropeller()
     {
-        //�÷��緯�� ȸ�� ���Ѷ� (ȸ���� z���� ��������)
+        //프로펠러를 회전시켜라 (회전의 z값을 변경)
         propeller.transform.Rotate(0, 0, 10);
     }
 }

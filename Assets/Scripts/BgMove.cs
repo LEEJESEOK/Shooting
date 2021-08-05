@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BgMove : MonoBehaviour
 {
-    //¼Óµµ
+    //ì†ë„
     public float speed = 0.5f;
     void Start()
     {
@@ -13,12 +13,12 @@ public class BgMove : MonoBehaviour
 
     void Update()
     {
-        //ÀÏÁ¤ÇÑ ¼Óµµ·Î ¹è°æÀ» ½ºÅ©·Ñ ÇÏ°í ½Í´Ù.
-        //1. MeshRenderer ÄÄÆ÷³ÍÆ® °¡Á®¿ÀÀÚ
+        //ì¼ì •í•œ ì†ë„ë¡œ ë°°ê²½ì„ ìŠ¤í¬ë¡¤í•˜ê³  ì‹¶ë‹¤.
+        //1. MeshRenderer ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ì
         MeshRenderer mr = gameObject.GetComponent<MeshRenderer>();
-        //2. °¡Á®¿Â ÄÄÆ÷³ÍÆ®¿¡¼­ MaterialÀ» °¡Á®¿ÀÀÚ
+        //2. ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì—ì„œ Materialì„ ê°€ì ¸ì˜¤ì
         Material mat = mr.material;
-        //3. °¡Á®¿Â MaterialÀÇ offsetÀ» º¯°æ
+        //3. ê°€ì ¸ì˜¨ Materialì˜ offsetì„ ë³€ê²½
         //P = P0 + vt
         mat.mainTextureOffset += Vector2.up * speed * Time.deltaTime;
     }

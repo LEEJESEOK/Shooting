@@ -16,7 +16,7 @@ public class DestroyZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //ºÎµúÈù³ğÀ» ÆÄ±«ÇÏÀÚ
+        //ë¶€ë”ªíŒ ë†ˆì„ íŒŒê´´í•˜ì
         Destroy(other.gameObject);
     }
 }

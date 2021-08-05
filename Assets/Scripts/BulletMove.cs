@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletMove : MonoBehaviour
 {
-    //¼Óµµ
+    //ì†ë„
     public float speed = 7;
     void Start()
     {
@@ -13,7 +13,7 @@ public class BulletMove : MonoBehaviour
 
     void Update()
     {
-        //°è¼Ó À§·Î ¿Ã¶ó°¡°Ô ÇÏ°í ½Í´Ù.
+        //ê³„ì† ìœ„ë¡œ ì˜¬ë¼ê°€ê²Œ í•˜ê³  ì‹¶ë‹¤.
         transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 }

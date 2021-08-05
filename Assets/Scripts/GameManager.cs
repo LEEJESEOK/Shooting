@@ -1,10 +1,17 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GAMESTATE
+    {
+        READY,
+        START,
+        PLAYING
+    }
+
     public static GameManager instance;
 
     // 0: ready
@@ -13,12 +20,16 @@ public class GameManager : MonoBehaviour
     // 3: exit
     public int state;
 
+    float delayTime = 4;
     public Text readyText;
 
     public GameObject currScoreUI;
     public Text bestScoreText;
 
     private float currTime = 0f;
+
+
+
     private void Awake()
     {
         if (instance == null)
@@ -48,7 +59,7 @@ public class GameManager : MonoBehaviour
         // print("x, y(" + x + ", " + y + ") : " + (posX + (3 * posY))) ;
 
 
-        state = 0;
+        state = (int)GAMESTATE.READY;
 
         ScoreManager.instance.currScore = 0;
         UpdateBestScore(ScoreManager.instance.bestScore);
@@ -61,20 +72,26 @@ public class GameManager : MonoBehaviour
 
         switch (state)
         {
-            case 0:
-                if (currTime > 2)
+            case (int)GAMESTATE.READY:
+
+                delayTime -= Time.deltaTime;
+                int remainTime = (int)delayTime;
+
+                readyText.text = remainTime.ToString();
+
+                if (currTime > 3)
                 {
-                    state = 1;
+                    state = (int)GAMESTATE.START;
                     readyText.text = "Start!";
 
                     currTime = 0;
                 }
                 break;
 
-            case 1:
+            case (int)GAMESTATE.START:
                 if (currTime > 1)
                 {
-                    state = 2;
+                    state = (int)GAMESTATE.PLAYING;
                     readyText.gameObject.SetActive(false);
 
                     currTime = 0;
@@ -102,4 +119,8 @@ public class GameManager : MonoBehaviour
         bestScoreText.text = "최고점수 : " + bestScore;
     }
 
+    public bool IsPlaying()
+    {
+        return state == (int)GAMESTATE.PLAYING;
+    }
 }

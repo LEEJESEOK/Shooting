@@ -7,10 +7,10 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
-    //��������
+    //현재점수
     public int currScore;   
 
-    //�ְ�����
+    //최고저무
     public int bestScore;   
 
     void Awake()
@@ -19,7 +19,7 @@ public class ScoreManager : MonoBehaviour
         {
             instance = this;
 
-            //�ְ������� �ҷ��´�.
+            //최고점수를 불러온다.
             bestScore = PlayerPrefs.GetInt("best_score");
 
             DontDestroyOnLoad(gameObject);
@@ -42,20 +42,20 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int addValue)
     {
-        //������ ������Ʈ�� currSocre ���� ������Ű��
+        //가져온 컴포넌트의 currScore값을 증가시키자
         currScore += addValue;
 
-        //�������� UI ����
+        //현재점수 UI 갱신
         GameManager.instance.UpdateCurrScore(currScore);
 
-        //���࿡ ���������� �ְ��������� Ŀ����
+        //만약에 현재점수가 최고점수보다 커지면
         if(currScore > bestScore)
         {
-            //�ְ������� ���������� ����
+            //최고점수를 현재점수로 갱신
             bestScore = currScore;
-            //�ְ����� UI�� ����
+            //최고점수 UI도 갱신
             GameManager.instance.UpdateBestScore(bestScore);
-            //�ְ������� �����Ѵ�
+            //최고점수를 저장한다.
             PlayerPrefs.SetInt("best_score", bestScore);
         }
     }

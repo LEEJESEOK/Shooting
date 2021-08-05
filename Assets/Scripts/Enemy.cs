@@ -5,33 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
-    //�ӵ�
+    //속도
     public float speed = 4;
-    //Ÿ��
+    //타겟
     GameObject target;
-    //����
+    //방향
     Vector3 dir;
 
-    //����..
+    //모양들...
     public GameObject model1;
     public GameObject model2;
     public GameObject model3;
     public GameObject model4;
 
-    //���߰���
+    //폭발공장
     public GameObject exploFactory;
 
     int modelIdx;
     void Start()
     {
-        //0, 1, 2, 3 �� ������ �������� ����
+        //0, 1, 2, 3 이 나오는 랜덤값을 뽑자
         modelIdx = Random.Range(0, 4);
-        //���࿡ 0�̳����� model1 Ȱ��ȭ
+        //만약에 0이 나오면 model1 활성화
         if(modelIdx == 0)
         {
             model1.SetActive(true);
         }
-        //�׷��� �ʰ� 1�̸� model2 Ȱ��ȭ
+        //그렇지 않고 1이 나오면 model2 활성화
         else if(modelIdx == 1)
         {
             model2.SetActive(true);
@@ -48,59 +48,59 @@ public class Enemy : MonoBehaviour
         //0 ~ 9
         int rand = Random.Range(0, 10);
 
-        //���࿡ rand�� 3���� ������
+        //만약에 rand가 3보다 작으면
         if(rand < 3)
         {
-            //������ �Ʒ���
+            //방향을 아래로
             dir = Vector3.down;
         }
-        //�׷��� ������
+        //그렇지 않으면
         else
         {
-            //������ �÷��̾��
-            //������ �÷��̾ ���ϰ�
-            //0. Player�� ã��
+            //방향을 플레이어로
+            //방향을 플레이어를 향하게
+            //0. Player를 찾자
             target = GameObject.Find("Player");
 
-            //���࿡ target�� ���� null�� �ƴ϶��
+            //만약에 target의 값이 null이 아니라면
             if(target != null)
             {
-                //1. Ÿ��(Player)�� ���ϴ� ������ ���ϰ�
+                //1. 타겟(target)을 향하는 방향을 구하고
                 dir = target.transform.position - transform.position;
-                //dir�� ũ�⸦ 1�� �����(��ֶ�����, ����ȭ)
+                //dir의 크기를 1로 만든다.(정규화)
                 dir.Normalize();
             }
         }
     }
     void Update()
     {
-        //2. �� �������� �����̰� �ʹ�.
+        //2. 그 방향으로 움직이고 싶다.
         transform.position += dir * speed * Time.deltaTime;
         //transform.Translate(dir * speed * Time.deltaTime);
     }
 
-    //�������� (��������)�浹�Ҷ� ȣ��Ǵ� �Լ�
+    //누군가와 (물리적인)충돌할 때 호출되는 함수
     private void OnCollisionEnter(Collision collision)
     {
-        //���࿡ �ε������� Player���
+        //만약에 부딪힌 놈이 Player라면
         if(collision.gameObject.name.Contains("Player"))
         {
-            //���ȭ������ �̵�
+            //결과화면으로 이동
             SceneManager.LoadScene("ResultScene");
         }
-        //�׷��� ������
+        //그렇지 않으면
         else
         {
-            //���� �÷�����
+            //점수 올려주자
             ChangeScore();
         }
 
-        //����ȿ�� ��������
+        //폭발효과 보여주자
         CreateExploEffect();
 
-        //1. �ε��� ���ӿ�����Ʈ �ı�
+        //1. 부딪힌 게임 오브젝트 파괴
         Destroy(collision.gameObject);
-        //2. ���� ���ӿ�����Ʈ �ı�
+        //2. 나의 게임 오브젝트 파괴
         Destroy(gameObject);
     }
 
@@ -108,40 +108,40 @@ public class Enemy : MonoBehaviour
     {
         ScoreManager.instance.AddScore(10 + modelIdx * 10);
         
-        ////ScoreManger ���ӿ�����Ʈ�� ã��
+        ////ScoreManger 게임 오브젝트를 찾자
         //GameObject smObj = GameObject.Find("ScoreManager");
-        ////ã�� ���ӿ�����Ʈ���� ScoreM ������Ʈ�� ��������
+        ////찾은 게임 오브젝트에서 ScoreM 컴포넌트를 가져오자
         //ScoreM sm = smObj.GetComponent<ScoreM>();
-        ////ã�� ������Ʈ�� ����� AddScore�� ����
+        ////찾은 컴포넌트의 기능 중 AddScore를 실행
         //sm.AddScore(10 + modelIdx * 10);
     }
 
     void CreateExploEffect()
     {
-        //���߰��忡�� ����ȿ�� �����.
+        //폭발공장에서 폭발효과 만든다.
         GameObject explo = Instantiate(exploFactory);
-        //������� ����ȿ���� Enemy(���ڽ�)�� ��ġ�� ���´�.
+        //만들어진 폭발 효과를 enemy(나 자신)의 위치에 놓는다.
         explo.transform.position = transform.position;
-        //������� ����ȿ������ ParticleSystem ������Ʈ�� �����´�.
+        //만들어진 폭발효과에서 ParticleSystem 컴포넌트를 가져온다.
         ParticleSystem ps = explo.GetComponent<ParticleSystem>();
-        //������ ������Ʈ�� ����� Play�� ����
+        //가져온 컴포넌트의 기능 중 Play를 실행
         ps.Play();
-        //3���ִٰ� ����ȿ���� �ı�����
+        //3초 있다가 폭발효과를 파괴하자
         Destroy(explo, 3);
     }
 
 
-    //�������� (�������⵹�̾���)Ʈ���� �浹�϶� ȣ��Ǵ� �Լ�
+    //누군가와 (물리적 충돌이 없는)트리거 충돌일 때 호출되는 함수
     private void OnTriggerEnter(Collider other)
     {
-        //0. ���࿡ �ε��� ���ӿ�����Ʈ�� �̸���
-        //   DestroyZone�� �����ϰ� ����������
+        //0. 만약에 부딪힌 게임 오브젝트의 이름이
+        //   DestroyZone을 포함하고 있지 않으면
         if(other.gameObject.name.Contains("DestroyZone") == false)
         {
-            //1. �ε��� ���ӿ�����Ʈ �ı�
+            //1. 부딪힌 게임 오브젝트 파괴
             Destroy(other.gameObject);
         }
-        //2. ���� ���ӿ�����Ʈ �ı�
+        //2. 나의 게임 오브젝트 파괴
         Destroy(gameObject);
     }
 }
