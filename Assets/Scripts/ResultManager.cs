@@ -25,6 +25,7 @@ public class ResultManager : MonoBehaviour
         //버튼 크기 0 -> 1
         iTween.ScaleTo(btnRetry, iTween.Hash("x", 1, "y", 1, "z", 1, "time", .5f, "easetype", iTween.EaseType.easeOutBounce, "delay", 2.5f));
 
+        SoundManager.instance.PlayBGM(SoundManager.BGM_SOUND_TYPE.BGM_RESULT);
     }
 
     public void OnClickRetry()

@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
 
         ScoreManager.instance.currScore = 0;
         UpdateBestScore(ScoreManager.instance.bestScore);
+
+        SoundManager.instance.PlayBGM(SoundManager.BGM_SOUND_TYPE.BGM_INGAME);
     }
 
     // Update is called once per frame

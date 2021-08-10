@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
         int rand = Random.Range(0, 10);
 
         //만약에 rand가 3보다 작으면
-        if(rand < 3)
+        if (rand < 3)
         {
             //방향을 아래로
             dir = Vector3.down;
@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
             target = GameObject.Find("Player");
 
             //만약에 target의 값이 null이 아니라면
-            if(target != null)
+            if (target != null)
             {
                 //1. 타겟(target)을 향하는 방향을 구하고
                 dir = target.transform.position - transform.position;
@@ -85,23 +85,27 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //만약에 부딪힌 놈이 Player라면
-        if(collision.gameObject.name.Contains("Player"))
+        if (collision.gameObject.name.Contains("Player"))
         {
             //결과화면으로 이동
             SceneManager.LoadScene("ResultScene");
         }
-        //그렇지 않으면
-        else
+        //그렇지 않고 부딪힌 놈이 총알이면
+        else if (collision.gameObject.name.Contains("Bullet"))
         {
             //점수 올려주자
             ChangeScore();
+
+            GameObject player = GameObject.Find("Player");
+            PlayerFire pf = player.GetComponent<PlayerFire>();
+            pf.ResetBullet(collision.gameObject);
         }
 
         //폭발효과 보여주자
         CreateExploEffect();
 
-        //1. 부딪힌 게임 오브젝트 파괴
-        Destroy(collision.gameObject);
+        // //1. 부딪힌 게임 오브젝트 파괴
+        // Destroy(collision.gameObject);
         //2. 나의 게임 오브젝트 파괴
         Destroy(gameObject);
     }
@@ -109,7 +113,7 @@ public class Enemy : MonoBehaviour
     void ChangeScore()
     {
         ScoreManager.instance.AddScore(10 + modelIdx * 10);
-        
+
         ////ScoreManger 게임 오브젝트를 찾자
         //GameObject smObj = GameObject.Find("ScoreManager");
         ////찾은 게임 오브젝트에서 ScoreM 컴포넌트를 가져오자
@@ -138,7 +142,7 @@ public class Enemy : MonoBehaviour
     {
         //0. 만약에 부딪힌 게임 오브젝트의 이름이
         //   DestroyZone을 포함하고 있지 않으면
-        if(other.gameObject.name.Contains("DestroyZone") == false)
+        if (other.gameObject.name.Contains("DestroyZone") == false)
         {
             //1. 부딪힌 게임 오브젝트 파괴
             Destroy(other.gameObject);
