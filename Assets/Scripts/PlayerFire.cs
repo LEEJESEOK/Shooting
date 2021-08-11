@@ -11,6 +11,8 @@ public class PlayerFire : MonoBehaviour
     public GameObject firePos;
     public GameObject firePos2;
 
+    public int maxBullet = 10;
+
     //현재시간
     float currTime = 0;
     //발사시간
@@ -42,7 +44,7 @@ public class PlayerFire : MonoBehaviour
         // }
 
         listMagazine = new List<GameObject>();
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < maxBullet; i++)
         {
             GameObject bullet = Instantiate(bulletFactory);
             listMagazine.Add(bullet);
@@ -134,22 +136,32 @@ public class PlayerFire : MonoBehaviour
         #endregion
 
         #region list foreach
-        foreach (GameObject bullet in listMagazine)
-        {
-            if (bullet.activeSelf == false)
-            {
-                bullet.SetActive(true);
-                bullet.transform.position = pos;
-                break;
-            }
-        }
+        // foreach (GameObject bullet in listMagazine)
+        // {
+        //     if (bullet.activeSelf == false)
+        //     {
+        //         bullet.SetActive(true);
+        //         bullet.transform.position = pos;
+        //         break;
+        //     }
+        // }
         #endregion
 
+        GameObject bullet;
 
-        listMagazine[0].transform.position = pos;
-        listMagazineActive.Add(listMagazine[0]);
-        listMagazine.RemoveAt(0);
+        if (listMagazine.Count > 0)
+        {
+            bullet = listMagazine[0];
+            bullet.SetActive(true);
+            listMagazine.RemoveAt(0);
+        }
+        else
+        {
+            bullet = Instantiate(bulletFactory);
+        }
 
+            bullet.transform.position = pos;
+            listMagazineActive.Add(bullet);
     }
 
     void CreateBullet()

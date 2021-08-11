@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class Enemy : MonoBehaviour
     public GameObject exploFactory;
 
     int modelIdx;
+
+    float currHP;
+    public float maxHP;
+    public Image hpUI;
+
+
     void Start()
     {
         //0, 1, 2, 3 이 나오는 랜덤값을 뽑자
@@ -46,6 +53,8 @@ public class Enemy : MonoBehaviour
         //     model4.SetActive(true);
         // }
         models[modelIdx].SetActive(true);
+        maxHP = modelIdx * 20 + 20;
+        currHP = maxHP;
 
         //0 ~ 9
         int rand = Random.Range(0, 10);
@@ -84,17 +93,16 @@ public class Enemy : MonoBehaviour
     //누군가와 (물리적인)충돌할 때 호출되는 함수
     private void OnCollisionEnter(Collision collision)
     {
-        //만약에 부딪힌 놈이 Player라면
-        if (collision.gameObject.name.Contains("Player"))
+        if (collision.gameObject.name.Contains("Bullet"))
         {
-            //결과화면으로 이동
-            SceneManager.LoadScene("ResultScene");
-        }
-        //그렇지 않고 부딪힌 놈이 총알이면
-        else if (collision.gameObject.name.Contains("Bullet"))
-        {
-            //점수 올려주자
-            ChangeScore();
+            currHP -= 20;
+            hpUI.fillAmount = currHP / maxHP;
+            if (currHP <= 0)
+            {
+                //점수 올려주자
+                ChangeScore();
+            }
+
 
             GameObject player = GameObject.Find("Player");
             PlayerFire pf = player.GetComponent<PlayerFire>();
@@ -107,7 +115,9 @@ public class Enemy : MonoBehaviour
         // //1. 부딪힌 게임 오브젝트 파괴
         // Destroy(collision.gameObject);
         //2. 나의 게임 오브젝트 파괴
-        Destroy(gameObject);
+        if (currHP <= 0)
+            Destroy(gameObject);
+
     }
 
     void ChangeScore()
