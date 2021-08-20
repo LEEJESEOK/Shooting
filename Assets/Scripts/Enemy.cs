@@ -112,6 +112,9 @@ public class Enemy : MonoBehaviour
         //폭발효과 보여주자
         CreateExploEffect();
 
+        if(collision.gameObject.name.Contains("Player"))
+            Destroy(gameObject);
+
         // //1. 부딪힌 게임 오브젝트 파괴
         // Destroy(collision.gameObject);
         //2. 나의 게임 오브젝트 파괴

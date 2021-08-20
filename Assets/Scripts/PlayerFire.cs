@@ -102,7 +102,8 @@ public class PlayerFire : MonoBehaviour
         currTime += Time.deltaTime;
 
         //1. 만약에 사용자가 마우스왼쪽(왼쪽 Ctrl)버튼을 누르면
-        if (Input.GetButton("Fire1"))
+        // if (Input.GetButton("Fire1"))
+        if(Input.GetMouseButton(0))
         {
             //시간을 흐르게 한다
             //만약에 현재 흐르는 시간이 발사시간보다 커지면
